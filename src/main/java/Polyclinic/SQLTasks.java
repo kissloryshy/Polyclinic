@@ -37,7 +37,8 @@ public class SQLTasks {
         }
     }
 
-    public static void verify(String login, String pass) {
+    public static String[] verify(String login, String pass) {
+        String[] result = {"-1", "-1"};
         try {
             CallableStatement cst = connection.prepareCall("{CALL getName(?, ?, ?, ?)}");
             cst.setString(1, login);
@@ -45,10 +46,18 @@ public class SQLTasks {
             cst.registerOutParameter(3, Types.NVARCHAR);
             cst.registerOutParameter(4, Types.NVARCHAR);
             cst.execute();
-            System.out.println(cst.getString(3));
-            System.out.println(cst.getString(4));
+            result[0] = cst.getString(3);
+            result[1] = cst.getString(4);
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+            return result;
         }
+    }
+
+    public static ResultSet getStaff() throws Exception {
+        CallableStatement stmt = connection.prepareCall("{CALL getStaff()}");
+        ResultSet rs = stmt.executeQuery();
+        return rs;
     }
 }

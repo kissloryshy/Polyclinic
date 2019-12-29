@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.Locale;
@@ -18,11 +18,9 @@ public class PrimaryController implements Initializable {
     public TextField tfLogin;
     public TextField tfPass;
     public Button btnLogin;
-    public Button btnNew;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("onLoad");
         SQLTasks.connect();
     }
 
@@ -34,20 +32,27 @@ public class PrimaryController implements Initializable {
         String login = tfLogin.getText();
         String pass = tfPass.getText();
 
-        SQLTasks.verify(login, pass);
-    }
+        String[] result = SQLTasks.verify(login, pass);
+        if (result[0]==null || result[1]==null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Неправильный логин или пароль");
+            //alert.getDialogPane().setExpandableContent(new ScrollPane(new TextArea("Ошибка")));
+            alert.showAndWait();
+            return;
+        }
 
-    @FXML
-    private void btnNewClick() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondary.fxml"));
             Parent root = (Parent)fxmlLoader.load();
 
             SecondaryController sc = fxmlLoader.getController();
-            sc.setVariables(tfLogin.getText(), tfPass.getText());
+            sc.setVariables(result[0], result[1]);
             Stage stage = new Stage();
             stage.setTitle("Поликлиника У Дмитрия");
             stage.setScene(new Scene(root, 600, 400));
+            stage.resizableProperty().setValue(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.show();
         } catch (Exception ex) {
             ex.printStackTrace();
