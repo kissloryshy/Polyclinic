@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:id="AuthForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="235.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Polyclinic.PrimaryController">
+   <children>
+      <Button fx:id="btnLogin" layoutX="97.0" layoutY="168.0" mnemonicParsing="false" onAction="#btnLoginClicked" text="Войти" />
+      <Label layoutX="51.0" layoutY="37.0" text="Логин" />
+      <Label layoutX="47.0" layoutY="94.0" text="Пароль" />
+      <TextField fx:id="tfLogin" layoutX="47.0" layoutY="63.0" />
+      <TextField fx:id="tfPass" layoutX="47.0" layoutY="119.0" />
+      <Button fx:id="btnNew" layoutX="27.0" layoutY="193.0" mnemonicParsing="false" onAction="#btnNewClick" text="New" />
+   </children>
+</Pane>
